@@ -7,14 +7,24 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{array}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
 \usepackage{hyperref}
 \usepackage[style=apa, backend=biber]{biblatex}
 
 \addbibresource{references.bib}
 \onehalfspacing
 
-\title{From Persons to Families to Organizations:\\A Cross-Level CAS Foundation for Brief Health Screening}
-\author{Ryan Carr}
+% Tables single-spaced regardless of body spacing
+\AtBeginEnvironment{table}{\singlespacing}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{From Persons to Families to Organizations:\\A Complex Adaptive Systems Foundation for Brief Organizational Health Screening}
+\author{Ryan Carr and Thomas Bradley\\Colorado State University}
 \date{\today}
 
 \begin{document}
@@ -22,26 +32,459 @@
 \maketitle
 
 \begin{abstract}
-TODO: Summarize the cross-level complex adaptive systems argument linking individual, family-system, and organizational health screening.
+\noindent Screening instruments are a foundational technology of individual psychological assessment: short enough for routine use, sensitive enough to flag emerging problems, and validated against more comprehensive instruments. Organizations have no analogous instrument for monitoring organizational health; instead they rely on long-form, infrequent assessments such as McKinsey's Organizational Health Index and the Denison Organizational Culture Survey. The obvious remedy---transferring brief-screener design logic directly to organizational assessment---analogizes in a single leap from a bounded individual respondent to a multi-actor system whose health is an emergent property. This paper argues that the transfer becomes principled when persons, family systems, and organizations are treated as three applications of one system class, complex adaptive systems (CAS), with family systems as the intermediate application. Family systems theory anticipated core CAS constructs decades before complexity science named them, and family assessment built validated brief instruments, principally the McMaster Family Assessment Device and the SCORE family of systemic outcome measures, for precisely the kind of emergent relational construct organizational screening requires. From these precedents the paper derives a cross-application measurement architecture, a five-element assessment-system abstraction, construct correspondences, and multilevel measurement foundations, specifying what transfers, what must be adapted, and what cannot. The Organizational Health Assessment (OHA), a six-domain brief screener for systems engineering organizations, serves as the worked example. The architecture supplies design rationale; validity remains an organizational-level empirical obligation, addressed by a staged companion research program.
+
+\vspace{0.75em}
+\noindent\textbf{Keywords:} organizational health, complex adaptive systems, brief screening, family assessment, multilevel measurement, instrument design, measurement architecture
 \end{abstract}
 
 \section{Introduction}
-TODO: Frame the need for a principled cross-level foundation rather than a single-domain analogy.
+\label{sec:introduction}
 
-\section{Complex Adaptive Systems Across Levels}
-TODO: Compare persons, families, and organizations as complex adaptive systems while preserving their differences.
+Organizations rarely fail without warning, but they often fail without measurement. Emergent problems such as degrading role clarity, eroding process discipline, quiet resource starvation, and weakening collaboration can accumulate below the threshold of detection until they surface as missed commitments, turnover, or program failure, at which point the underlying patterns are entrenched and expensive to correct. The instruments available for detecting such problems earlier sit at two extremes. At one extreme, comprehensive organizational health assessments, such as McKinsey's Organizational Health Index and the Denison Organizational Culture Survey, provide rich multidimensional diagnosis but carry resource requirements that preclude recurring administration \parencite{camp2024,denison1995,keller2011}. At the other, routine measures, such as pulse surveys and systems engineering effectiveness metrics, are light enough to repeat but capture narrow slices of organizational functioning rather than systemic health \parencite{brown2022,elm2012}. Reviews of pulse-style measurement document its narrowness \parencite{brown2022}, surveys of systems engineering effectiveness measurement document the same for engineering-specific metrics \parencite{elm2012}, and the major comprehensive frameworks describe periodic in-depth assessment, not recurring screening, as their use model \parencite{camp2024,denison1990}. To the authors' knowledge, no brief, theoretically grounded, publicly documented screening instrument exists for recurring organizational health monitoring.
 
-\section{Brief Health Screening Logic}
-TODO: Explain how screening logic travels across levels and where it must be adapted.
+Individual psychological assessment confronted a structurally similar gap and solved it, and its solution supplies this paper's central analogy. The Patient Health Questionnaire-9 (PHQ-9) compresses the diagnostic criteria for major depressive disorder into nine items that can be completed in under two minutes, yet it discriminates depression severity reliably and was validated against comprehensive, clinician-administered diagnostic assessment \parencite{kroenke2001,negeri2021}. The PHQ-9 and its companion screeners, such as the GAD-7 for generalized anxiety \parencite{spitzer2006}, demonstrate that a short instrument can carry actionable information about the state of a complex system when its items are well chosen, its scoring is interpretable, and its relationship to a fuller comparator is established.
 
-\section{Measurement Architecture}
-TODO: Present the cross-level architecture that supports the OHA and the staged calibration design.
+The analogy invites an immediate objection. A person completing the PHQ-9 reports on their own internal state; the instrument, the respondent, and the system being assessed coincide in a single bounded individual. An organization is none of these things. It is a multi-actor system whose health is an emergent property of interactions among people, processes, and structures; no single member can observe it whole, and the construct itself exists at a level of analysis above any individual respondent. Analogizing directly from individual assessment to organizational assessment therefore makes two moves at once: from one actor to many, and from a self-reported internal state to a system-referent emergent property. An analogy that makes both moves in a single leap is vulnerable at both, and a skeptical reader is entitled to ask whether anything more than metaphor connects the endpoints. The connection this paper develops is that the endpoints are applications of a single system class---complex adaptive systems (CAS)---and that measurement strategy keyed to the class's shared structural properties is a candidate for transfer between them.
+
+Family systems sit between persons and organizations in precisely the respects that matter for measurement, and they are the third application of the same class. A family is a genuine multi-actor system whose functioning is emergent, relational, and observable only partially from any one member's vantage point. Family science---the interdisciplinary field spanning family psychology and family therapy research---has treated families as systems for nearly seventy years, importing and anticipating the constructs that complexity science would later formalize \parencite{jackson1957,minuchin1974,bowen1978,cox1997}. Clinicians and researchers have built validated, multidomain, multi-informant, repeatable instruments for assessing emergent relational functioning, principally the McMaster Family Assessment Device (FAD) and the SCORE family of systemic outcome measures \parencite{epstein1983,stratton2010,stratton2014,hamilton2016}. Within that tradition, the same brief-plus-comprehensive design pattern that characterizes clinical screening has independently re-emerged: the FAD's General Functioning subscale operates as a short standalone screen against the full instrument \parencite{boterhovendehaan2015}, and the 15-item SCORE-15 was distilled from a longer item pool expressly for routine, repeated systemic monitoring \parencite{stratton2010,stratton2014}. Notably, the FAD and its General Functioning summary predate the PHQ-9 by nearly two decades, so the family-level instance of the pattern cannot be a derivative imitation of the clinical exemplar. The pattern's recurrence is what the shared functional pressures would predict.
+
+Two kinds of evidence therefore support the transfer. The first is structural: persons, families, and organizations each instantiate the defining properties of complex adaptive systems---interdependent components, feedback regulation, self-organization, emergence, nonlinearity, and critical transitions---which is what licenses the expectation that measurement strategies keyed to those properties might generalize. The second is empirical-by-precedent: the screening design pattern itself, brief multidomain sampling validated against a comprehensive comparator and administered repeatedly to track trajectory, has now appeared in two adjacent applications under the same functional constraints. Together these convert the organizational proposal from a cross-domain metaphor into the next instance of an established measurement pattern.
+
+A disciplined statement of the claim is that analogizing across applications of complex adaptive systems provides a \emph{design rationale}: a principled account of why a brief organizational screener should be structured as it is, which design elements inherit from validated precedents, and which must be re-established empirically at the organizational level. It does not supply validity. Family instruments are design precedents for the organizational screener, not validators of it; no amount of cross-application reasoning substitutes for organizational-level evidence, and the architecture itself identifies exactly which inferences remain open \parencite{kane2006,aera2014}. The thesis of this paper is therefore that the leap from individual to organizational screening becomes principled when it is decomposed into two single steps, person to family and family to organization, and that the intermediate step is already occupied: family assessment has built and validated the instrument pattern the organizational application requires.
+
+This paper describes a conceptual design rationale, developed by analogy across applications of complex adaptive systems, for brief organizational health screening; the staged empirical program that tests it is reported separately. Within that scope the paper makes four contributions. First, it establishes family systems as a theoretically grounded intermediate application rather than a merely convenient one, through a term-by-term mapping between family systems theory and CAS vocabulary (Section~\ref{sec:three-systems}). Second, it shows that brief health screening is a general measurement pattern rather than a clinical idiosyncrasy, documenting the independent re-emergence of multidomain sampling, brief-plus-comprehensive pairing, multi-informant design, and repeated trajectory monitoring in family assessment, and locating family systems, in explicit comparison with team research, as the anchor of the intermediate position (Section~\ref{sec:screening-pattern}). Third, it derives a cross-application measurement architecture, comprising a five-element assessment-system abstraction, construct correspondences among the three applications, and connections to multilevel measurement theory, that specifies what transfers, what adapts, and what does not transfer, with the Organizational Health Assessment (OHA) as a worked example and an explicit treatment of administration, governance, and ethics (Section~\ref{sec:architecture}). Fourth, it draws out implications for instrument design, for simulation-based instrument characterization using staged known-answer calibration, and for argument-based validation planning (Section~\ref{sec:implications}). Section~\ref{sec:limitations} states the limitations and boundary conditions of the argument, and Section~\ref{sec:conclusion} concludes.
+
+\section{Three Systems, One Pattern: Complex Adaptive Systems at Three Levels of Analysis}
+\label{sec:three-systems}
+
+\subsection{Complex Adaptive Systems and Claim Discipline}
+\label{sec:cas-discipline}
+
+A complex adaptive system is composed of interdependent agents whose local interactions produce system-level behavior that cannot be predicted from the properties of the components alone \parencite{holland1995}. Across otherwise dissimilar domains, CAS exhibit a recurring set of structural properties: self-organization, in which coherent global patterns arise without central control; feedback regulation, through which system outputs become subsequent inputs and stabilize or amplify behavior; emergence, in which qualitatively new properties exist at the system level \parencite{goldstein1999}; nonlinearity, in which small perturbations can cascade into large state changes; adaptation, in which the system reorganizes in response to changing conditions; and critical transitions, in which the system shifts abruptly between qualitatively different regimes rather than degrading smoothly \parencite{anderson1999,scheffer2009}.
+
+Claims of the form ``X is a complex adaptive system'' require discipline, because they are easily inflated into claims that systems at different levels are the same kind of thing. They could be. An as-CAS claim, as used here, asserts only that a system instantiates the structural property set above, so that knowledge keyed to those properties, including knowledge about how to measure systems that have them, is a candidate for transfer. What transfers must then be established property by property, and the differences between levels constrain the answer (Section~\ref{sec:differences}). Table~\ref{tab:cas-properties} summarizes how the core CAS properties manifest at each of the three levels examined in this paper, and Figure~\ref{fig:ladder} previews the structure the rest of the paper builds on them.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Core CAS properties and their characteristic manifestations at three nested levels of analysis.}
+\label{tab:cas-properties}
+\begin{tabular}{p{2.9cm}p{3.6cm}p{3.6cm}p{3.8cm}}
+\toprule
+CAS property & Person & Family system & Organization \\
+\midrule
+Interdependent components & Cognitive, affective, somatic, and behavioral subsystems; symptoms coupled in networks & Members and subsystems (spousal, parental, sibling) coupled through interaction patterns & People, teams, processes, technology, and culture coupled through workflows and norms \\
+\midrule
+Feedback regulation & Rumination loops; sleep--fatigue--mood cycles & Circular causal sequences; homeostatic correction of deviations & Performance--morale--turnover loops; escalation and reinforcement dynamics \\
+\midrule
+Self-organization and attractors & Stable mood regimes; disorder as a self-sustaining state & Stable interaction patterns, rules, and routines; family homeostasis & Stable cultures, routines, and informal structures arising without design \\
+\midrule
+Emergence & Mental health as a network state, not a sum of symptoms & Family functioning as a relational property of the whole & Organizational health as systemic capacity, not aggregated attitudes \\
+\midrule
+Nonlinearity and critical transitions & Abrupt onset or remission of disorder & Crisis-induced reorganization; second-order change & Sudden morale collapse, regime shifts after leadership or resource shocks \\
+\midrule
+Adaptation & Coping, learning, compensation & Reorganization across developmental stages and stressors & Strategic and structural adaptation to environmental change \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    rung/.style={draw, rounded corners, align=center, minimum width=8.8cm, minimum height=1.5cm, font=\small},
+    boundary/.style={font=\footnotesize\itshape, align=left, anchor=west},
+    arr/.style={-{Stealth[length=2.5mm]}, thick}
+]
+\node[rung, fill=orange!8]  (org) at (0,5.4) {\textbf{Organization-as-CAS}\\Brief: OHA ($\sim$20 items) \quad Comprehensive: OHRA ($\sim$100 items)};
+\node[rung, fill=teal!8]    (fam) at (0,2.7) {\textbf{Family-as-CAS}\\Brief: FAD-GF, SCORE-15 \quad Comprehensive: full FAD, SCORE-40};
+\node[rung, fill=blue!8]    (per) at (0,0)   {\textbf{Person-as-CAS}\\Brief: PHQ-9 \quad Comprehensive: structured clinical interview};
+\draw[arr] (per.north) -- (fam.south);
+\draw[arr] (fam.north) -- (org.south);
+\node[boundary] (b1) at (4.7,1.35) {assessor multiplies;\\construct becomes emergent;\\items shift to system referent};
+\node[boundary] (b2) at (4.7,4.05) {scale and nested structure;\\role stratification and power;\\designed, purposive system};
+\draw[dashed, gray] (0.25,1.35) -- (b1.west);
+\draw[dashed, gray] (0.25,4.05) -- (b2.west);
+\end{tikzpicture}
+\caption{The person--family--organization ladder. Each rung pairs a brief screener with a comprehensive comparator (Table~\ref{tab:pairings}). Annotations name the measurement adjustments introduced at each level boundary; the person-to-family adjustments are the measurement-theoretically hard ones, and family assessment has already made them (Section~\ref{sec:assessment-system}).}
+\label{fig:ladder}
+\end{figure}
+
+\subsection{Persons as Complex Adaptive Systems}
+\label{sec:person-cas}
+
+Contemporary psychological science increasingly models mental health as the emergent state of a complex adaptive system rather than as the surface expression of a single underlying disease entity. The network theory of mental disorders holds that symptoms are not passive indicators of a latent condition but causal agents that activate, reinforce, and suppress one another through feedback loops \parencite{borsboom2017}. Sleep disruption propagates into fatigue and concentration deficits; concentration deficits feed appraisals of failure; appraisals feed mood decline and social withdrawal, which in turn degrade sleep. When the network's internal connectivity is strong, such loops can become self-sustaining: the system settles into a disorder state that persists even after the precipitating stressor is removed, which is attractor dynamics in the vocabulary of complexity science \parencite{borsboom2017,robinaugh2020}.
+
+The CAS framing carries direct measurement consequences. Systems governed by attractor dynamics do not drift smoothly between states; they exhibit critical transitions, and such transitions are often preceded by generic early-warning signals, including rising variance and slower recovery from small perturbations \parencite{scheffer2009}. Empirical work has documented exactly these signatures in affective dynamics: critical slowing down anticipates both the onset and the remission of depression \parencite{vandeLeemput2014}. The practical implication is that monitoring matters as much as snapshot assessment, and that monitoring is feasible with simple instruments. Because the symptom network is densely interconnected, a small, well-chosen sample of indicators carries information about the global system state, and a trajectory of such samples carries information about impending state change. This is the theoretical reading of why brief screeners work at the individual level, and it is developed further in Section~\ref{sec:clinical-pattern}.
+
+\subsection{Family Systems as Complex Adaptive Systems}
+\label{sec:family-cas}
+
+The claim that families are systems is not an import from complexity science; it is one of the founding commitments of family science, and it predates the modern CAS vocabulary by decades. The intellectual lineage runs from general system theory \parencite{vonbertalanffy1968} into the family therapy tradition, where it was operationalized clinically. \textcite{jackson1957} introduced family homeostasis to describe the observation that families behave as self-correcting systems: when one member's behavior deviates from the family's established equilibrium, interaction patterns activate to restore it, which is why individual symptomatic improvement sometimes destabilizes other family members. \textcite{minuchin1974} described families as structured wholes organized into subsystems---spousal, parental, sibling---separated by boundaries whose permeability ranges from enmeshed (over-coupled) to disengaged (under-coupled), with dysfunction concentrated at the extremes. \textcite{bowen1978} theorized the family as an emotional unit in which individual functioning cannot be understood apart from the relational field, introducing constructs such as differentiation of self and emotional triangles that describe how system-level dynamics recruit and constrain individual members. \textcite{watzlawick1974} distinguished first-order change, in which a system varies its behavior within an unchanged organization, from second-order change, in which the organization of the system itself shifts. \textcite{cox1997} consolidated these threads for developmental science: families are organized wholes with interdependent, hierarchically organized subsystems, governed by circular rather than linear causality, exhibiting both homeostatic self-stabilization and adaptive reorganization.
+
+Read against the property set in Section~\ref{sec:cas-discipline}, this is a description of a complex adaptive system written largely before the term existed. Table~\ref{tab:family-cas-mapping} makes the correspondence explicit. The mapping is the first load-bearing element of the cross-application argument: it establishes that family-as-CAS is a derivation from the family science literature itself, not an analogy imposed on it from outside.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Term-by-term correspondence between family systems theory and CAS vocabulary.}
+\label{tab:family-cas-mapping}
+\begin{tabular}{p{4.6cm}p{3.8cm}p{5.4cm}}
+\toprule
+Family systems construct & CAS construct & Shared dynamic \\
+\midrule
+Family homeostasis \parencite{jackson1957} & Attractor state maintained by negative feedback & Deviations from an established regime trigger corrective interaction patterns that restore it \\
+\midrule
+Circular causality \parencite{cox1997} & Feedback loops; mutual causation & Behavior of each component is both cause and consequence of the behavior of others \\
+\midrule
+Subsystems and boundaries \parencite{minuchin1974} & Modularity and coupling structure & System behavior depends on the strength and permeability of couplings between component clusters \\
+\midrule
+Enmeshment and disengagement \parencite{minuchin1974} & Pathological extremes of coupling strength & Both over-coupling and under-coupling degrade adaptive capacity \\
+\midrule
+First- vs.\ second-order change \parencite{watzlawick1974} & Parameter change vs.\ regime shift (critical transition) & Systems can vary within a regime or reorganize into a qualitatively different regime \\
+\midrule
+Family rules, scripts, and routines & Emergent self-organized order & Stable global patterns arise from repeated local interactions without central design \\
+\midrule
+Differentiation of self; emotional triangles \parencite{bowen1978} & Agent heterogeneity constraining system dynamics & Properties of individual agents condition the dynamics the system can express \\
+\midrule
+Adaptation across the family life cycle \parencite{cox1997,olson2000} & Adaptive reorganization under perturbation & Healthy systems reorganize in response to developmental and environmental demands \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The same systems commitments shaped how family functioning came to be measured. The McMaster Model of Family Functioning, the theoretical basis of the FAD, begins from explicitly systemic premises: the parts of the family are interrelated, no part can be understood in isolation from the rest, and family functioning is more than the sum of member characteristics \parencite{epstein1978,miller2000}. The model operationalizes functioning across six dimensions---problem solving, communication, roles, affective responsiveness, affective involvement, and behavior control---selected to sample the interdependent task and relational subsystems through which the family system does its work. Olson's Circumplex Model, the other dominant multidomain framework, organizes family functioning around cohesion and flexibility, with communication as a facilitating dimension, and advances a distinctly dynamical hypothesis: functioning is healthiest at balanced levels of cohesion and flexibility, while the extremes (enmeshed or disengaged; rigid or chaotic) are problematic \parencite{olson2000}. In CAS terms, the Circumplex hypothesis is a claim about coupling strength and adaptability, and the McMaster dimensions are a domain decomposition of an emergent construct. Family functioning, on either model, is a property of the relational system as such: instruments built on these models pose their items about the family as a whole, and they are designed to be answered by multiple members of the same system, two features whose measurement significance is developed in Section~\ref{sec:family-replication}.
+
+\subsection{Organizations as Complex Adaptive Systems}
+\label{sec:org-cas}
+
+Organizations have been analyzed as complex adaptive systems for as long as complexity theory has engaged social science. They are composed of interdependent elements, including people, teams, processes, technology, and culture, whose interactions produce emergent outcomes such as innovation capacity, operational resilience, and adaptive performance \parencite{anderson1999,schneider2006}. Organizational behavior arises from the interplay of formal structures and informal social dynamics across multiple levels, and small changes in leadership behavior or resource allocation can cascade into large shifts in effectiveness or morale \parencite{schneider2006}. The multilevel literature has formalized how such system-level phenomena emerge dynamically from individual interactions over time \parencite{kozlowski2000,kozlowski2013}. The level-specific form of nonlinearity is also documented in organizational research: organizations tend to evolve through extended periods of relative stability punctuated by short bursts of discontinuous transformation \parencite{gersick1991,romanelli1994}, and under acute stress organized behavior can collapse abruptly rather than degrade gracefully \parencite{weick1993}. Whether organizational transitions are preceded by measurable early-warning signatures analogous to those documented in ecological and affective systems \parencite{scheffer2009,vandeLeemput2014} is an open empirical question, treated throughout this paper as a motivating hypothesis rather than an established finding.
+
+Organizational health names the emergent state of interest. Early formulations described a healthy organization as one that not only survives but continues to cope adequately and develop over time \parencite{miles1965}; contemporary treatments converge on an organization's capacity to align around shared goals, execute effectively, renew itself, and sustain a supportive work environment \parencite{camp2024,keller2011}. The construct is explicitly systemic, which is why narrow proxies fail to capture it: engagement scores, financial indicators, and process maturity ratings each sample one facet of a state that exists in the alignment among facets \parencite{denison1995,schneider2006}.
+
+In systems engineering settings, a domain-specific pathology vocabulary sharpens the picture. Systems engineering pathology characterizes recurring dysfunctions of complex sociotechnical organizations across four broad categories, spanning knowledge and understanding, organization, resources, and implementation, by explicit analogy to medical pathology: dysfunctions have characteristic presentations, causes, and detection strategies \parencite{davidz2018}. The pathology framing matters for measurement in the same way diagnostic taxonomies matter in medicine. It converts a diffuse construct, organizational health, into an enumerable space of assessable concerns, and it does so in the working language of the engineering organizations being assessed. The OHA's domain structure draws directly on this taxonomy \parencite{carr2025}, as Section~\ref{sec:oha-application} details.
+
+The measurement gap at this level was stated in the introduction and bears restating in CAS terms. If organizational health is an emergent state of a system prone to nonlinear change, then assessing it demands instruments that sample across interdependent domains (because the state lives in their alignment), draw on multiple vantage points (because no single role observes the system whole), and repeat at low burden (because trajectory and early warning, not snapshots, carry the diagnostic value). Comprehensive instruments meet the first requirement but not the third; pulse measures meet the third but not the first; and the multi-perspective requirement is met systematically by neither \parencite{camp2024,brown2022,elm2012}.
+
+\subsection{Differences That Matter}
+\label{sec:differences}
+
+Shared CAS structure licenses the transfer question; it does not answer it. The three levels differ in ways that directly constrain measurement, and the architecture developed later in this paper is shaped as much by these disanalogies as by the analogies.
+
+Persons differ from both higher levels in the locus of report. An individual has privileged, though imperfect and bias-prone, access to their own internal state; a single respondent and a single instrument suffice in principle, and the measurement challenges concentrate in self-presentation and insight. Multi-actor systems break this coincidence of respondent and system. Family functioning and organizational health must be assessed through members whose perspectives are partial, positioned, and systematically divergent, which transforms informant disagreement from a nuisance into a structural feature of measurement (Sections~\ref{sec:family-replication} and~\ref{sec:multilevel-foundations}).
+
+Families differ from organizations in scale, formation, purpose, and structure. Families are small, typically spanning two to perhaps ten members; organizational units range from a handful to thousands, with nested subunits. Family membership is largely given rather than chosen, entered by birth or partnership, exited rarely and at high cost; organizational membership is contractual and comparatively fluid. Families have no chartered purpose and no formal performance criteria; organizations are designed, purposive systems with explicit goals, role descriptions, and accountability structures. Family authority is generational and diffuse; organizational authority is formalized in hierarchies that create power differentials among potential informants, with consequences for candor that family assessment does not confront in the same form \parencite{edmondson1999}. Finally, the intimacy and affective intensity of family life have no full organizational counterpart, which cautions against transferring affect-laden constructs without reinterpretation.
+
+A further qualification cuts across all three levels: each is internally heterogeneous. Persons differ in insight and self-presentation; families differ in structure, culture, and developmental stage; and organizations range from ten-person startups to bureaucracies of thousands, with the strength of CAS properties such as coupling density and self-organization plausibly varying with size, formalization, and membership stability. The architecture developed below is therefore stated for a target class, intact organizational units with continuing membership and shared fate, rather than for organizations in general, and within-level heterogeneity is treated in Section~\ref{sec:limitations} as a boundary condition to be established empirically rather than assumed away.
+
+These differences set the terms of the analysis that follows. Content does not transfer across levels: no family assessment item belongs on an organizational instrument, and no clinical cutoff means anything for a team. What may transfer is architecture, the structural design of the measurement system, and even architecture transfers only where the underlying property that motivated it is shared. The next section identifies that architecture at the two levels where it already exists.
+
+\section{Brief Screening as a General Measurement Pattern}
+\label{sec:screening-pattern}
+
+\subsection{The Clinical Pattern}
+\label{sec:clinical-pattern}
+
+Brief clinical screeners succeed through a small set of identifiable design choices. The PHQ-9 distills the nine DSM-IV criteria for major depressive disorder into nine self-report items on a common four-point frequency scale, scored 0--27, with empirically derived severity bands and a recommended cut point validated against comprehensive diagnostic interviews; at the standard cutoff it achieved 88\% sensitivity and 88\% specificity for major depression in the original validation, figures broadly sustained in subsequent individual-participant-data meta-analysis \parencite{kroenke2001,negeri2021}. The comprehensive comparator in that validation, structured clinical interviewing of the SCID type, requires trained administration and substantial time \parencite{first1996}; the screener does not replace it but determines who needs it. The GAD-7 replicates the same architecture for generalized anxiety \parencite{spitzer2006}.
+
+Four design principles do the work. First, the instrument samples core indicators across the construct's key domains rather than exhaustively assessing every facet. Second, a consistent, low-burden response format minimizes cognitive load and supports repeated use. Third, interpretable scoring with actionable thresholds connects scores to follow-up decisions. Fourth, and definitionally for screening, the brief instrument is validated against a comprehensive reference assessment, establishing that brevity has a known and acceptable cost \parencite{kroenke2001}. To these a fifth should be added that is often implicit: the instrument is designed for repetition, because in routine care the trajectory of scores carries diagnostic information that no single administration provides.
+
+The CAS reading of Section~\ref{sec:person-cas} explains why so spare a design can work at all. In a densely interconnected symptom network, the states of a few well-chosen nodes are informative about the global state of the system, because tight coupling propagates state broadly \parencite{borsboom2017}. And because systems with attractor dynamics signal impending transitions through their temporal behavior, repeated brief measurement is not merely a cheaper substitute for occasional comprehensive measurement; it captures information, trajectory and early warning, that snapshot assessment cannot in principle provide \parencite{scheffer2009,vandeLeemput2014}. Screening logic, on this reading, is not a clinical idiosyncrasy. It is a measurement strategy matched to the structural properties of complex adaptive systems, and it should be expected to reappear wherever those properties recur and the burden constraints of routine monitoring bind. Its two components carry different epistemic weights, and the difference matters downstream: that a small sample of well-connected indicators can index global system state is supported by the network account at the individual level, whereas the proposition that repeated brief measurement can provide early warning of organizational transitions is, at present, a hypothesis the shared CAS structure licenses and the associated research program must test (Section~\ref{sec:validation-implications}).
+
+\subsection{The Family-System Replication}
+\label{sec:family-replication}
+
+It does reappear, one level up, in a literature that developed it largely independently. Family assessment confronted a harder version of the clinical measurement problem: the construct, family functioning, is emergent and relational; no single informant observes it whole; and the practical settings of family work, clinical sessions and large surveys, impose severe burden constraints. The instruments that emerged under these pressures exhibit, point for point, the architecture of Section~\ref{sec:clinical-pattern}, extended to handle multiple informants and system-referent measurement.
+
+The McMaster Family Assessment Device is the multidomain exemplar. The FAD, published with 53 items and expanded to 60 in its current version, operationalizes the McMaster Model's six dimensions as separate scales and adds a seventh, the 12-item General Functioning scale, that indexes overall family health \parencite{epstein1983,miller2000}. Three of its design features matter here. First, the instrument samples interdependent relational domains rather than cataloguing family behavior exhaustively, exactly as a screener samples a symptom network. Second, it is completed independently by multiple family members about the same system, and McMaster practice reads disagreement between members' ratings as information about the family rather than as error to be averaged away \parencite{miller2000}. The broader assessment literature converged on the same reinterpretation of informant discrepancy: cross-informant correlations in behavioral assessment are modest and systematically patterned by perspective and context, which makes discrepancies data rather than noise \parencite{achenbach1987,delosreyes2005}. Third, the General Functioning scale functions as a brief summary instrument nested within the comprehensive one, and it has been validated for standalone use, including in shortened form in large epidemiological surveys \parencite{boterhovendehaan2015}. The brief-plus-comprehensive pairing, in other words, exists \emph{within} the FAD family itself.
+
+The SCORE family is the longitudinal exemplar. Developed within systemic therapy's routine outcome monitoring movement, the SCORE began as a 40-item index of family functioning and was deliberately distilled to the 15-item SCORE-15 so that family members could complete it at every session without burden \parencite{stratton2010}. Its three subscales, covering family strengths and adaptability, being overwhelmed by difficulties, and disrupted communication, preserve a coherent systemic signal at one-quarter the length, and the instrument demonstrably detects therapeutic change between early sessions \parencite{stratton2014}. The SCORE-15 is thus a validated existence proof for the proposition that a brief systemic instrument can track the trajectory of an emergent relational state over short measurement cycles, which is precisely the value proposition claimed for organizational screening. Systematic review of the family assessment field confirms that these are not boutique tools: the FAD and SCORE families rank among the small set of self-report family measures judged psychometrically adequate and clinically useful \parencite{hamilton2016}.
+
+Table~\ref{tab:pairings} summarizes the pattern across levels. One instance of a design pattern is an idiosyncrasy; two independent instances under the same functional constraints are evidence of a general solution. The family-level instance is not derivative of the clinical one: the FAD and its General Functioning summary predate the PHQ-9 by eighteen years, and the SCORE emerged from systemic therapy's own outcome-measurement needs rather than from imitation of primary-care screening \parencite{epstein1983,kroenke2001,stratton2010}. The architecture recurred because the problem recurred: an emergent state of a complex adaptive system had to be monitored repeatedly, through the reports of its members, without exhausting them. This recurrence does not prove that the pattern will succeed at a third level. It does shift the burden of argument: a brief organizational health screener is not a metaphor stretched across domains but a candidate third instance of a measurement pattern with two validated predecessors.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{The brief-plus-comprehensive screening pattern at three CAS levels. At each level the brief instrument samples the system state for routine, repeated use, while the comprehensive instrument provides depth on demand.}
+\label{tab:pairings}
+\begin{tabular}{p{2.5cm}p{4.3cm}p{3.5cm}p{3.6cm}}
+\toprule
+Level & Comprehensive reference & Brief instrument & Monitoring role of the brief form \\
+\midrule
+Person & Structured clinical interview (SCID) \parencite{first1996} & PHQ-9 \parencite{kroenke2001} & Routine severity screening; trajectory across visits triggers follow-up \\
+\midrule
+Family system & Full FAD, 60 items \parencite{epstein1983,miller2000}; SCORE-40 \parencite{stratton2010} & FAD General Functioning scale \parencite{boterhovendehaan2015}; SCORE-15 \parencite{stratton2014} & Session-by-session systemic outcome monitoring; population-survey screening \\
+\midrule
+Organization & OHRA, reference-class comparator ($\sim$100 items); comprehensive frameworks \parencite{camp2024,denison1995} & OHA, $\sim$20 items \parencite{carr2025} & Recurring unit-level health screening; trajectory flags domains for deeper assessment \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Why Family Systems Anchor the Intermediate Level}
+\label{sec:why-families}
+
+An obvious objection deserves a direct answer. If the goal is a foundation for \emph{organizational} measurement, teams might seem the natural intermediate level: they are multi-actor systems, they live inside organizations, and they resemble organizational units far more than families do. The choice of anchor should therefore rest on explicit criteria rather than on either system's surface similarity to the target. Given the role the intermediate rung plays in this architecture, it must supply validated precedent for five things at once:
+
+\begin{enumerate}[nosep]
+    \item an emergent, system-referent construct, measured as a property of the collective rather than as an aggregate of member attitudes;
+    \item multi-informant administration in which discrepancy between informants is treated as information about the system;
+    \item a brief instrument validated against a comprehensive comparator within the same tradition;
+    \item routine repeated administration with demonstrated sensitivity to systemic change; and
+    \item published norms, cutoffs, and benchmark relationships usable as known-answer targets, including for the calibration uses described in Section~\ref{sec:simulation-implications}.
+\end{enumerate}
+
+Team research contributes genuinely to the first two criteria, and the architecture is better for acknowledging it. Team-level constructs such as team climate, collective efficacy, and team reflexivity are emergent properties measured with collective-referent items, and the referent-shift measurement practice formalized by \textcite{chan1998} was developed largely in this literature. Validated team instruments exist: the Team Climate Inventory is a psychometrically established multidomain measure of shared climate \parencite{andersonwest1998}, and the Team Diagnostic Survey provides comprehensive, theory-grounded diagnosis of team design conditions \parencite{wageman2005}. Team research, in short, demonstrates at the organization's own doorstep that collective constructs can be measured rigorously, and it supplies domain-proximal construct content that organizational instruments should draw on \parencite{mathieu2008}.
+
+What team research does not supply is the screening pattern. Against the third through fifth criteria, the team literature is thin where family assessment is deep. No team instrument plays the role that the FAD's General Functioning scale or the SCORE-15 play in family practice: a brief, normed, repeatable systemic screen validated against a fuller comparator within its own tradition and adopted for routine outcome monitoring \parencite{boterhovendehaan2015,stratton2014}. Team measurement also remains substantially study-specific, with constructs operationalized anew across research programs \parencite{mathieu2008}, whereas family assessment consolidated early around a small number of instruments whose psychometric properties have been reviewed systematically for decades \parencite{hamilton2016}. And the team literature's benchmarks, where they exist, are research findings rather than the clinical-grade infrastructure of norms, cutoffs, and change-sensitivity evidence that known-answer calibration requires.
+
+Two further considerations, less decisive but real, favor the family anchor. Families are natural, persistent systems with shared history, thick interdependence, and emergent identity; the units organizational health screening targets, intact teams and units with continuing membership and shared fate, resemble persistent natural systems more than the ad hoc project groups prominent in parts of the team literature. And family therapy's defining stance, treating the system rather than the individual as the patient \parencite{minuchin1974,miller2000}, is the stance organizational health assessment and systems engineering pathology take toward organizations \parencite{davidz2018,miles1965}: the family precedent supplies not only instruments but an assessment philosophy with a fifty-year clinical track record.
+
+The resulting position is complementarity with a clear division of labor, not exclusion. Family assessment anchors the intermediate rung because it is where the screening architecture, the brief-plus-comprehensive pairing, multi-informant discrepancy analysis, and routine systemic monitoring, already exists in validated form. Team research contributes construct content, organizational contextualization, and independent confirmation that collective-referent measurement works in work settings. Families are the best-instrumented intermediate level, not the only conceivable one, and Section~\ref{sec:limitations} treats the choice accordingly.
+
+\subsection{What Transfers, What Adapts, and What Does Not Transfer}
+\label{sec:transfer-analysis}
+
+The preceding sections justify treating the screening pattern as general across applications; this one disciplines the transfer. Table~\ref{tab:transfer} decomposes the pattern into design elements and classifies each as transferring essentially intact, transferring with specified adaptation, or not transferring at all. The classification follows a single rule: an element transfers to the extent that the structural property motivating it is shared across levels (Section~\ref{sec:cas-discipline}), and it adapts or fails to transfer to the extent that it depends on level-specific features (Section~\ref{sec:differences}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Transfer analysis of brief-screening design elements from the person and family levels to the organizational level.}
+\label{tab:transfer}
+\begin{tabular}{L{4.4cm}L{2.3cm}L{7.0cm}}
+\toprule
+Design element & Transfer status & Basis and required adaptation at the organizational level \\
+\midrule
+Multidomain sampling of interdependent subsystems & Transfers & Motivated by emergence and dense coupling, which all three levels share; domain content must be derived from organizational theory and pathology, not inherited \\
+\midrule
+Brief-plus-comprehensive pairing & Transfers & Motivated by the burden--coverage trade-off of routine monitoring, which binds at all levels; requires constructing an organizational comprehensive comparator \\
+\midrule
+Consistent low-burden response format & Transfers & Generic survey-design rationale \parencite{clark1995,hinkin1998}; carried over directly \\
+\midrule
+Repeated administration for trajectory & Transfers, with cadence adaptation & Motivated by attractor dynamics and early-warning logic; administration cadence must match organizational change timescales rather than clinical or therapeutic ones \\
+\midrule
+System-referent item wording & Adapts & Family items reference the family; organizational items shift the referent to the unit, engaging referent-shift composition logic \parencite{chan1998} \\
+\midrule
+Multi-informant design with discrepancy as evidence & Adapts & Family informants differ by subsystem position; organizational informants differ additionally by role, hierarchy, and power, so discrepancy analysis must stratify by role and contend with safety-related candor gradients \parencite{edmondson1999,delosreyes2005} \\
+\midrule
+Item content & Does not transfer & Symptoms and family behaviors have no organizational referents; content derives from organizational health theory and SE pathology \parencite{davidz2018} \\
+\midrule
+Norms, cutoffs, and severity bands & Do not transfer & Empirically derived at each level from level-specific populations; organizational thresholds await organizational data \\
+\midrule
+Validity evidence & Does not transfer & Validity attaches to interpretations of scores at a level, not to architectures; each level requires its own validation argument \parencite{kane2006,aera2014} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two entries deserve emphasis because they are the ones most often elided in cross-domain instrument arguments. Norms and cutoffs do not transfer: the PHQ-9's clinical bands and the FAD's cutoffs are empirical facts about specific populations, and no organizational analog exists until organizational data produce one. And validity does not transfer: under the argument-based framework, validity is a property of score interpretations and uses, supported by evidence specific to them \parencite{kane2006,messick1995,aera2014}. The architecture of Section~\ref{sec:architecture} is therefore offered as exactly what a design-stage interpretive argument requires, a theory of why the instrument should work, stated precisely enough to be tested, and not as a substitute for the testing.
+
+\section{A Cross-Application Measurement Architecture for Organizational Health Screening}
+\label{sec:architecture}
+
+\subsection{The Assessment-System Abstraction}
+\label{sec:assessment-system}
+
+A screening instrument never operates alone; it operates inside an assessment system. Five elements define that system: the \emph{instrument} itself; the \emph{assessor} or assessors who complete it; the \emph{system under test} whose state is being assessed; the \emph{generic system type}, the theoretical model of the system class for which the instrument was designed, including its diagnostic taxonomy; and the \emph{stakeholders} who act on the results. Making these elements explicit converts a vague question, whether screening logic transfers across levels, into five precise ones, and it reveals where the difficulty actually lives. Table~\ref{tab:assessment-system} instantiates the abstraction at all three levels.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{The five-element assessment system instantiated at three CAS levels.}
+\label{tab:assessment-system}
+\begin{tabular}{p{2.6cm}p{3.4cm}p{3.7cm}p{4.0cm}}
+\toprule
+Element & Clinical (PHQ-9) & Family (FAD / SCORE-15) & Organizational (OHA) \\
+\midrule
+Instrument & 9 symptom items & 60-item FAD with 12-item General Functioning scale; 15-item SCORE-15 & $\sim$20 items across 6 domains \\
+\midrule
+Assessor(s) & Patient self-report (or clinician) & Multiple family members reporting on the same system & Multiple assessors stratified by role: frontline, supervisor, executive \\
+\midrule
+System under test & Individual person & Family system & Organizational unit \\
+\midrule
+Generic system type & Human psychology, per diagnostic taxonomy (DSM) & Family system, per McMaster / Circumplex models & Organization-as-CAS, per organizational health theory and SE pathology \\
+\midrule
+Stakeholders & Patient, clinician, care team & Family members, therapist, referring services & Unit members, leadership, HR, sponsors, consultants \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The abstraction's payoff is that it locates each scaling adjustment at a specific level boundary, which is the precise sense in which the family level decomposes the two-level leap. Between the person and the family, the assessor multiplies, one respondent becomes several members reporting on the same system; the system under test shifts from a bounded actor to an emergent relational unit; and item referents shift from self-report to system-report. These are the measurement-theoretically hard transitions, and family assessment has already made them, with validated results. Between the family and the organization, the remaining adjustments are real but different in kind: the system scales in size and acquires nested structure; assessor perspectives stratify by formal role and authority rather than by family position; the generic system type shifts from a natural intimate system to a designed purposive one, with SE pathology supplying the diagnostic taxonomy in place of family functioning models \parencite{davidz2018}; and the stakeholder set widens beyond the system's own members. Every adjustment the organizational level demands is thus either solved at a lower level or identified explicitly as new, and the new ones, scale, role stratification, and purposive structure, are exactly where organizational measurement theory has tools to offer (Section~\ref{sec:multilevel-foundations}).
+
+\subsection{Construct Correspondences Across Levels}
+\label{sec:correspondences}
+
+The architecture also requires content-level guidance: which family-system constructs have organizational analogs, and of what kind. Table~\ref{tab:correspondences} maps the principal FAD and SCORE constructs to their organizational counterparts as used in the OHA's design. The mapping is offered as analogical design guidance, identifying which classes of systemic functioning an organizational instrument should sample, and emphatically not as validated construct equivalence. Each row is a hypothesis about correspondence, testable at the organizational level, not a finding.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Analogical correspondences from family-system constructs to organizational constructs. Rows are design hypotheses, not validated equivalences.}
+\label{tab:correspondences}
+\begin{tabular}{p{4.6cm}p{2.0cm}p{6.8cm}}
+\toprule
+Family-system construct & Source & Organizational analog \\
+\midrule
+Communication & FAD, SCORE & Communication quality, coordination, information flow \\
+\midrule
+Roles & FAD & Role clarity, accountability, decision rights \\
+\midrule
+Problem solving & FAD & Organizational learning, issue resolution, adaptive problem solving \\
+\midrule
+Behavior control & FAD & Norms, governance, operating discipline \\
+\midrule
+Affective responsiveness and involvement & FAD & Trust, psychological safety, engagement \\
+\midrule
+General functioning & FAD & Overall health-index logic for a system-level summary \\
+\midrule
+Strengths and adaptability & SCORE & Resilience, adaptability, change capacity \\
+\midrule
+Overwhelmed by difficulties & SCORE & Friction, overload, strain, dysfunction \\
+\midrule
+Change over time & SCORE & Longitudinal monitoring and intervention response \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The correspondences are disciplined by the disanalogies of Section~\ref{sec:differences}. Affective constructs translate most loosely, because organizational affect is not family affect; they map onto trust and psychological safety, constructs with their own validated organizational literatures and measures \parencite{edmondson1999,frazier2017}, rather than transferring directly. Structural and process constructs, communication, roles, problem solving, and behavior control, translate most tightly, because they describe how any persistent multi-actor system coordinates work, regulates behavior, and adapts, which is the shared CAS substrate identified in Section~\ref{sec:three-systems}. Nor does every family construct map. Enmeshment and disengagement, as affective phenomena of intimate systems, have no direct organizational counterpart; what transfers is their structural lesson, that over-coupling and under-coupling both degrade adaptive capacity, which organizational research recognizes in its own forms, from siloed fragmentation to cohesion strong enough to suppress dissent. The table is deliberately conservative: a row appears only where an organizational literature exists to receive the construct.
+
+\subsection{Multilevel Measurement Foundations}
+\label{sec:multilevel-foundations}
+
+The organizational level adds measurement problems that family assessment handled informally and that organizational science has since formalized. Connecting the architecture to this literature both strengthens it and shows that the cross-application pattern is consistent with, rather than parallel to, established multilevel measurement theory.
+
+First, construct emergence and composition. Multilevel theory distinguishes the ways higher-level constructs emerge from lower-level ones, from simple composition, in which the collective construct is the convergent sum of individual contributions, to compilation, in which it arises from configural, non-uniform patterns \parencite{kozlowski2000,morgeson1999}. Chan's typology of composition models gives the measurement-operational version of this distinction \parencite{chan1998}. Two of its models are load-bearing here. Referent-shift consensus, in which items reference the collective (``this unit\ldots'') rather than the self (``I\ldots'') and within-unit consensus justifies aggregation, is precisely the measurement model that family instruments employ when members rate the family as a whole, and it is the model the OHA adopts for organizational units. Dispersion composition, in which the within-unit \emph{variance} of responses is itself the focal construct, is the formalization of what family assessment practices as discrepancy analysis: divergence among informants is not an obstacle to measurement but a measured property of the system \parencite{chan1998,delosreyes2005}.
+
+Second, aggregation discipline. Treating unit-level scores as meaningful requires demonstrating, not assuming, within-unit agreement, and the organizational literature supplies the machinery: interrater agreement indices such as $r_{wg(j)}$, with established interpretive conventions, reported alongside aggregated scores \parencite{james1984,lebreton2008,bliese2000}. The architecture incorporates this directly: every unit-level screening score is accompanied by an agreement statistic, and domains exhibiting systematic cross-role disagreement are flagged as findings about the organization, the dispersion logic above, rather than suppressed as unreliable.
+
+Third, response distortion. All self-report measurement contends with socially desirable responding \parencite{paulhus1984} and common-method variance \parencite{podsakoff2003}, but organizational hierarchy adds a structured distortion gradient: members' willingness to report problems candidly varies with psychological safety, and the variance is itself diagnostic of climate \parencite{edmondson1999}. The family precedent is again instructive in form, family members' disclosures likewise depend on the system's safety, but the organizational version is stratified by formal power and therefore demands role-stratified analysis and brief, low-threat item design \parencite{clark1995,hinkin1998}.
+
+These three threads close the loop opened by the assessment-system abstraction. The new measurement demands introduced at the family-to-organization boundary, scale, role stratification, and purposive formal structure, are each met by an established body of multilevel measurement theory, just as the demands introduced at the person-to-family boundary were met by the family assessment tradition. At no point does the architecture require a measurement operation without precedent.
+
+Concretely, the architecture commits any instrument built on it to a specifiable evaluation plan. Internal consistency is estimated within domains, and separately within assessor roles, because domain coherence may itself vary by vantage point. The hypothesized structure, six correlated domain factors, with any higher-order health factor treated as an empirical question rather than an assumption, is tested with confirmatory models once samples permit. Measurement invariance across assessor roles is examined before cross-role comparisons are interpreted, since role-dependent item functioning is both plausible and, where found, informative \parencite{putnick2016}. Within-unit agreement is reported with every aggregate using established interpretive conventions \parencite{lebreton2008,bliese2000}, with low-agreement domains flagged for dispersion-model interpretation rather than discarded. And because organizational units are small, reporting rules, including minimum cell sizes for role-level scores, are fixed in advance to protect respondent identifiability, a commitment developed in Section~\ref{sec:governance}.
+
+\subsection{The OHA as a Worked Example}
+\label{sec:oha-application}
+
+The Organizational Health Assessment instantiates the architecture. Developed in the first phase of this research program \parencite{carr2025}, the OHA is a brief screening instrument for systems engineering organizations comprising approximately twenty positively framed Likert-type items organized into six domains, shown in Table~\ref{tab:oha-domains}. The domain structure derives from the SE pathology taxonomy \parencite{davidz2018}, supplemented by a culture and collaboration domain capturing emergent relational properties that the pathology categories underrepresent, mirroring how the McMaster dimensions decompose family functioning into the subsystems through which the system does its work.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{The six OHA domains and their theoretical sources \parencite{carr2025,davidz2018}.}
+\label{tab:oha-domains}
+\begin{tabular}{p{4.2cm}p{3.8cm}p{5.4cm}}
+\toprule
+Domain & Theoretical source & SE-relevant focus \\
+\midrule
+Knowledge and Understanding & SE pathology: knowledge & Role clarity, goal alignment, technical knowledge sharing \\
+\midrule
+Process Maturity & SE pathology: organization & Process definition, adaptability, systems-level maturity \\
+\midrule
+Resource Allocation & SE pathology: resources & Adequacy and distribution of people, tools, and time \\
+\midrule
+Leadership and Decision-Making & SE pathology and organizational health theory & Evidence-based decisions, technical decision quality \\
+\midrule
+Culture and Collaboration & CAS analog and SE pathology & Trust, innovation, cross-functional integration \\
+\midrule
+Implementation and Execution & SE pathology: implementation & Plan execution, disruption management \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The domain count is an argued choice, not an inheritance. The four SE pathology categories provide the skeleton; the organization category is represented by two domains, process maturity and leadership and decision-making, because the pathology evidence and the major organizational health frameworks treat process discipline and decision quality as distinct failure loci \parencite{davidz2018,camp2024,denison1995}; and culture and collaboration is added because the emergent relational properties central to the CAS account, trust, integration, and information flow, are underrepresented in a taxonomy focused on engineering execution. Six domains of three to four items each also holds the instrument inside the burden envelope of routine administration while preserving genuinely multidomain sampling, the same coverage-versus-burden balance that fixed the McMaster model at six dimensions \parencite{epstein1978}. Table~\ref{tab:oha-items} shows one published illustrative item per domain to make the instrument concrete.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Illustrative OHA items, one per domain, from the published framework \parencite{carr2025}. The operational item pool ($\sim$20 items, 3--4 per domain, positively framed Likert format) is refined and frozen during the instrument-development phase of the research program.}
+\label{tab:oha-items}
+\begin{tabular}{L{4.4cm}L{9.6cm}}
+\toprule
+Domain & Illustrative item \\
+\midrule
+Knowledge and Understanding & ``My responsibilities are clear and well-communicated.'' \\
+Process Maturity & ``When issues arise in our workflows, they are addressed and improved in a timely manner.'' \\
+Resource Allocation & ``My team has the tools and resources we need to succeed.'' \\
+Leadership and Decision-Making & ``Management values employee feedback and acts on it when appropriate.'' \\
+Culture and Collaboration & ``Our organizational culture supports learning and open communication.'' \\
+Implementation and Execution & ``Projects in my area are completed on time and meet quality expectations.'' \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The published illustrative items are themselves instructive about the architecture's bite: they mix self-referent wordings (``my responsibilities'') with team- and organization-referent wordings (``our organizational culture''). The referent-shift commitment of Section~\ref{sec:multilevel-foundations} is therefore not a post hoc description of the item pool but a refinement criterion applied to it, and aligning item referents with the unit of inference is among the revisions the architecture prescribes before the instrument is frozen.
+
+Each architectural element of the OHA traces to a cross-application precedent established above. Its multidomain structure follows the general sampling principle (Sections~\ref{sec:clinical-pattern} and~\ref{sec:family-replication}), with domain content drawn from organizational rather than inherited theory, per the transfer analysis. Its items are unit-referent, engaging referent-shift composition \parencite{chan1998}, as family items are family-referent. It is administered to multiple assessors spanning frontline, supervisor, and executive perspectives, with cross-assessor agreement reported alongside every unit-level score and divergence analyzed as evidence about organizational alignment, the FAD's multi-informant practice formalized through dispersion logic and agreement statistics \parencite{miller2000,chan1998,james1984,lebreton2008}. It is designed for recurring administration, quarterly or at comparable cadence, so that domain trajectories rather than isolated snapshots carry the diagnostic weight, the SCORE-15's monitoring role at organizational timescales \parencite{stratton2014}. It reports a six-domain profile as the primary output, with any total score treated as a pragmatic summary rather than a reflective measure of a single latent dimension. And it is paired with a comprehensive comparator, the Organizational Health Reference Assessment (OHRA), an approximately 100-item instrument assembled from public-domain descriptions of established organizational health frameworks \parencite{camp2024,denison1990,denison1995}, completing the brief-plus-comprehensive pairing of Table~\ref{tab:pairings}.
+
+The OHA is positioned as the screening complement to comprehensive frameworks, not as their competitor. The OHI and Denison traditions themselves conceptualize organizational health and culture as system-level properties and support them with validated multidimensional measurement \parencite{camp2024,denison1990,denison1995}; what their use models lack is a low-burden recurring screen whose results indicate when comprehensive assessment is warranted. In the architecture's terms, they occupy the comprehensive-assessment role, and the OHRA is assembled from their public descriptions precisely so that the screener has a reference of that class.
+
+The architecture explains why the OHA is designed as it is; it does not establish that the OHA is valid. The OHRA is a reference-class comparator assembled for research use, not a gold standard. The instrument's measurement properties, its domain coherence, its discriminating power across organizational states, its sensitivity to change, and its robustness to distortion, are empirical questions, and the research program addresses them through the staged characterization and pilot work outlined next.
+
+\subsection{Administration, Governance, and Ethics}
+\label{sec:governance}
+
+The fifth element of the assessment system, the stakeholders who act on results, makes an organizational screener a governance object as well as a measurement instrument, and the architecture is incomplete without design commitments at that layer. Three risks distinguish organizational administration from the clinical and family settings of the lower rungs. Power differentials are structural: respondents report on a system that includes people with authority over their careers, so candor varies with psychological safety, and responses given under perceived surveillance measure fear rather than health \parencite{edmondson1999,paulhus1984}. Identifiability is acute: organizational units are small, and role-stratified reporting can expose individuals even in nominally anonymous data. And purpose drift is a live failure mode: an instrument introduced as system diagnosis can be quietly repurposed for individual evaluation, destroying both the ethics and the measurement properties of the program.
+
+The architecture therefore treats the following as design commitments of the same standing as item wording and scoring rules. Responses are collected under confidentiality protections fixed and communicated in advance. Reporting respects minimum cell sizes: role-level scores are reported only when a role cell contains enough respondents to prevent identification, unit-level summaries require multiple assessors spanning multiple roles, and smaller cells are suppressed into higher-level aggregates. Results are returned to the assessed unit itself, not exclusively to its leadership, in the same form provided to any other stakeholder. Data ownership, access, and retention rules are specified before administration. And the program's framing follows the stance the architecture inherits from family therapy: the unit is the patient, the screen diagnoses the system, and no individual-level inference is produced or permitted. These commitments are psychometric as well as ethical, because the distortion analyses of Section~\ref{sec:multilevel-foundations} presuppose conditions under which honest responding is rational. Research administrations add the standard human-subjects layer of informed consent and institutional review on top of these operational rules.
 
 \section{Implications}
-TODO: Discuss implications for instrument development, simulation, and validation planning.
+\label{sec:implications}
+
+\subsection{Implications for Instrument Design}
+\label{sec:design-implications}
+
+For developers of screening instruments targeting multi-actor systems, in organizational settings or elsewhere, the architecture compresses into a design discipline of seven commitments.
+
+\begin{enumerate}[nosep]
+    \item \textbf{Define the emergent construct and its taxonomy first.} Specify the system-level state being screened and ground its decomposition in a domain-appropriate theory or pathology taxonomy, as the DSM grounds the PHQ-9, the McMaster Model grounds the FAD, and SE pathology grounds the OHA \parencite{kroenke2001,epstein1978,davidz2018}.
+    \item \textbf{Sample interdependent domains; do not catalogue.} Select a small number of domains spanning the subsystems through which the system functions, relying on dense coupling to propagate state information \parencite{borsboom2017}.
+    \item \textbf{Write system-referent items.} Direct items at the unit, not the respondent's private state, engaging referent-shift composition deliberately \parencite{chan1998}.
+    \item \textbf{Design for multiple positioned informants.} Administer across the system's principal vantage points, report agreement alongside aggregates, and treat structured divergence as a finding \parencite{james1984,lebreton2008,delosreyes2005}.
+    \item \textbf{Keep it brief enough to repeat, and repeat it.} Set length from the intended cadence, and treat trajectory as the primary diagnostic signal \parencite{stratton2014,vandeLeemput2014}.
+    \item \textbf{Pair the screener with a comprehensive comparator.} Establish, eventually with empirical evidence, what the brevity costs and what follow-up the screener should trigger \parencite{kroenke2001}.
+    \item \textbf{Publish the instrument and its rationale.} Screening instruments earn trust through public documentation, critique, and cumulative validation, as the clinical and family exemplars did.
+\end{enumerate}
+
+\subsection{Implications for Simulation-Based Characterization}
+\label{sec:simulation-implications}
+
+The architecture's nested structure has a second, less obvious payoff: it organizes how a new organizational instrument can be characterized computationally before large-scale empirical validation is feasible. Large language models can now generate survey responses conditioned on rich personas, raising the prospect of simulated respondents for instrument development \parencite{argyle2023,park2023}. The known failure modes are serious, including compressed and stereotyped response distributions and sensitivity to superficial prompt variation \parencite{bisbee2024,tjuatja2024}, and for organizational instruments there is a deeper problem: no published organizational benchmarks exist against which to check whether simulated respondents behave plausibly.
+
+The cross-application architecture supplies what is missing: two adjacent applications where published benchmark relationships do exist. A simulation methodology can therefore be calibrated in stages. First, demonstrate that the response-generation architecture reproduces established individual-level psychometric relationships, the PHQ-9's severity structure and its agreement with a comprehensive comparator \parencite{kroenke2001}. Second, extend the architecture to multi-agent family systems and demonstrate that it reproduces published family-level signatures: FAD domain-score patterns, multi-informant agreement and informative divergence, and SCORE-15 change sensitivity \parencite{epstein1983,stratton2014}. Only then apply it to the organizational level, where agent-based dynamics define a known ground-truth state \parencite{bonabeau2002} and the brief instrument's behavior is characterized against its comprehensive comparator. Each lower level functions as a known-answer test of the methodology, and the family level is what makes the test sequence graduated rather than a single leap: it checks exactly the capabilities, multi-informant coherence about a shared system state and longitudinal change tracking, that the organizational application requires and that individual-level calibration cannot check. The research program of which this paper is part implements this three-step design, with the calibration logic and its boundary conditions reported separately.
+
+The claim boundary again matters: staged calibration establishes bounded trust in a simulation methodology, not the validity of the instrument being characterized. What it yields is a predicted measurement profile, testable expectations about the instrument's empirical behavior, which subsequent field work confirms, refines, or refutes. The sequencing follows from that logic: simulation precedes and sharpens field work, pilot administration tests the predicted profile against real respondents, and larger-scale empirical validation remains the standard it has always been. Simulation-based characterization complements that path and never substitutes for it, and its own boundary conditions, including the possibility of model misspecification precisely at the level where no benchmarks exist, are reported as findings about the methodology rather than absorbed silently.
+
+\subsection{Implications for Validation Planning}
+\label{sec:validation-implications}
+
+Under the argument-based approach to validation, an instrument's validity is established by articulating the interpretive argument connecting scores to interpretations and uses, then supporting each inference with evidence \parencite{kane2006,cronbach1955,messick1995,aera2014}. The cross-application architecture contributes the design-rationale strand of that argument and sharpens what remains to be shown at each inference layer. For \emph{scoring}, the architecture predicts that items will cohere within their assigned domains, a claim simulation can probe and field data must confirm. For \emph{generalization}, it predicts that unit-level scores will exhibit interpretable cross-assessor structure, convergence where the system state is broadly observable and patterned divergence where role vantage points differ, assessed with the agreement machinery of Section~\ref{sec:multilevel-foundations}. For \emph{extrapolation}, it predicts convergence between the brief screener and a comprehensive comparator, the relationship that defines screening at every level of the ladder, with the OHA--OHRA relationship as the organizational instance; criterion and discriminant evidence belong here as well, since screening scores should eventually predict consequential organizational outcomes such as retention, delivery performance, and incident experience, and should distinguish units that are healthy under load from units that are dysfunctional. For \emph{implication}, it predicts that domain profiles and trajectories will support useful follow-up decisions, the screening function itself, which only practitioner use can ultimately evidence. The family-level precedents inform the predictions; they contribute no evidence to the organizational argument. Validation remains an organizational-level obligation, staged from computational characterization through pilot feasibility to larger-scale empirical study.
+
+\section{Limitations and Boundary Conditions}
+\label{sec:limitations}
+
+Seven limitations bound the argument, and stating them precisely is part of the contribution.
+
+First, the architecture supplies design rationale, not validity; its role in a validation argument is to make the design-stage theory explicit and falsifiable, not to discharge the empirical burden \parencite{kane2006,aera2014}.
+
+Second, families are not organizations. The disanalogies catalogued in Section~\ref{sec:differences}, in scale, formation, purpose, authority structure, membership dynamics, and affective intensity, are real and consequential. The architecture transfers design logic, never content, norms, or evidence, and the construct correspondences of Table~\ref{tab:correspondences} are hypotheses whose organizational halves must stand on organizational theory and data.
+
+Third, the family-level precedents have limitations of their own. The FAD's factor structure has been debated across populations, informant access varies, and family norms are population-specific; benchmark relationships used for any calibration purpose must therefore be selected and bounded carefully \parencite{hamilton2016,boterhovendehaan2015}. The precedent argument requires that family measurement be credible and mature, which it is; it does not require that family measurement be unproblematic, which no measurement tradition is.
+
+Fourth, the choice of family systems as the intermediate level is justified by measurement maturity, not by uniqueness. Teams, workgroups, classrooms, and care teams are alternative multi-actor rungs, and a fuller ladder incorporating them is a natural extension; the present argument requires only that the family rung be load-bearing, not that it be exclusive \parencite{wageman2005}.
+
+Fifth, the screening logic itself has boundary conditions. It presumes a system whose interdependence is dense enough that sampled indicators carry system-state information, whose functioning is observable to its members well enough for informant report to be meaningful, whose composition is stable enough that repeated measurement tracks a persisting system, and whose construct definition holds still across administrations. Units undergoing radical reorganization, units with mostly peripheral or transient membership, including heavily matrixed structures and gig-style workforces where unit boundaries blur, or constructs lacking a defensible domain decomposition fall outside these conditions, and a screener applied there should be expected to fail in identifiable ways. Where exactly these boundaries lie is itself an empirical question for the research program, not a stipulation.
+
+Sixth, the worked example samples organizational health; it does not exhaust it. The six domains are tuned to systems engineering dysfunction, and dimensions of organizational health with substantial literatures of their own, among them diversity climate, equity, and justice, are touched by the culture and collaboration domain but not measured by it. Domain coverage is a revisable design decision within the architecture, and sector-specific or equity-extended variants are natural successors to the SE-tuned instrument.
+
+Seventh, this is a theory paper. Its claims are structural and architectural, and the empirical program it motivates, computational characterization with staged calibration followed by pilot field study, is reported separately. The same holds for the governance commitments of Section~\ref{sec:governance}, which are design commitments whose practicability in field administration is itself a pilot question. The architecture should be judged now on its coherence, its fidelity to the literatures it draws on, and the precision of the predictions it licenses, and later on whether those predictions survive contact with data.
 
 \section{Conclusion}
-TODO: State the theoretical contribution and its relationship to the dissertation.
+\label{sec:conclusion}
+
+The case for brief organizational health screening has usually rested on a single analogy: organizations need something like the PHQ-9. This paper has argued that the analogy, taken alone, overreaches, because it crosses two levels of analysis in one step, and that it is also unnecessary, because the intermediate level is already occupied. Family science treated multi-actor relational systems as systems before complexity science formalized the vocabulary, and family assessment built validated, multidomain, multi-informant, repeatable instruments for an emergent relational construct, including brief forms paired with comprehensive comparators, two decades before the clinical screening exemplar existed. Persons, families, and organizations instantiate the same complex adaptive system properties at three nested levels, and the screening design pattern keyed to those properties has now arisen independently at the first two.
+
+On that foundation the paper assembled a cross-application measurement architecture: a five-element assessment-system abstraction that locates each scaling adjustment at a specific level boundary and shows the hardest ones already solved; construct correspondences that translate family-system functioning into organizational design guidance without claiming equivalence; and multilevel measurement foundations, referent-shift and dispersion composition, aggregation discipline, and role-stratified distortion analysis, that supply the formal machinery the organizational level adds. The transfer analysis states plainly what carries across levels, what must be adapted, and what, content, norms, and validity, must be re-established at the target level. The Organizational Health Assessment instantiates the architecture for systems engineering organizations, and the architecture in turn organizes the research program that will characterize and test it: staged known-answer calibration at the person and family levels before organizational application, and an argument-based validation path whose open inferences the architecture itself identifies.
+
+The broader contribution is reusable beyond this instrument and this domain. Wherever an emergent state of a multi-actor system needs routine monitoring, in engineering organizations, clinical care teams, or institutions not yet imagined as measurement targets, the same architecture specifies what a defensible brief screener must do and what it must still prove. Three levels are enough to establish the pattern; they are unlikely to be the only three.
 
 \printbibliography
 
